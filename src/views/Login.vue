@@ -1,23 +1,46 @@
 <template>
     <div id="Login">
-        <form action="/api/login" method="post" @submit="login">
+        <form action="/api/login" method="post" @submit="login" autocomplete="off">
             <label for="username">
                 <div class="fieldName">Username</div>
-                <input type="text" id="username" name="username" :value="username" tabindex="1">
+                <input type="text" id="username" name="username" v-model.trim="username" tabindex="1">
             </label>
             <label for="password">
                 <div class="fieldName">Password</div>
-                <input type="password" id="password" name="password" :value="username" tabindex="2">
+                <input type="password" id="password" name="password" v-model.trim="password" tabindex="2">
             </label>
             <label class="button-box">
                 <button tabindex="3">Login</button>
             </label>
         </form>
+        <pre>{{ $v.username }}</pre>
+        <pre>{{ $v.password }}</pre>
     </div>
 </template>
 
 <script>
+import { minLength, required } from 'vuelidate/lib/validators'
+import { API } from '@/config/base'
+import axios from 'axios'
+
+const vagueProperties = [
+    '-webkit-filter',
+    '-moz-filter',
+    '-o-filter',
+    '-ms-filter',
+    'filter'
+]
 export default {
+    validations: {
+        username: {
+            required,
+            minLength: minLength(4)
+        },
+        password: {
+            required,
+            minLength: minLength(6)
+        }
+    },
     data () {
         return {
             username: '',
@@ -26,8 +49,29 @@ export default {
     },
     methods: {
         login (event) {
-            console.log('=> login')
+            if (this.$v.username.$invalid || this.$v.password.$invalid) {
+                this.addVague()
+            } else {
+                // this.disableSubmit()
+                this.sendLogin()
+            }
             event.preventDefault()
+        },
+        addVague () {
+            const num = Math.floor(Math.random() * 7 + 1)
+            vagueProperties.forEach(property => {
+                document.body.style[property] = `blur(${num}px)`
+            })
+        },
+        sendLogin () {
+            const {username, password} = this
+            axios({
+                method: 'POST',
+                url: API.prefix + '/login',
+                data: {username, password}
+            }).then(res => {
+                console.warn(res)
+            })
         }
     }
 }
@@ -86,6 +130,10 @@ export default {
                 border-style: none;
             }
         }
+    }
+    pre {
+        color: red;
+        float: left;
     }
 }
 </style>
