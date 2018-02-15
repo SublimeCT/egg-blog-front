@@ -1,0 +1,20 @@
+@mixin paddingMargin0 () {
+    padding: 0;
+    margin: 0;
+}
+
+html, body, #App, h1, h2, h3 {
+    @include paddingMargin0();
+}
+
+html {
+    height: 100%;
+    body {
+        height: 100%;
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+        font-family: "Avenir", Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
