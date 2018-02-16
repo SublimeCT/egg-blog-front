@@ -30,6 +30,7 @@ const vagueProperties = [
     '-ms-filter',
     'filter'
 ]
+
 export default {
     validations: {
         username: {
@@ -65,12 +66,32 @@ export default {
         },
         sendLogin () {
             const {username, password} = this
-            axios({
-                method: 'POST',
-                url: API.prefix + '/login',
-                data: {username, password}
-            }).then(res => {
-                console.warn(res)
+            this.getCsrfCookie().then(token => {
+                axios.request({
+                    method: 'POST',
+                    baseURL: API.prefix,
+                    url: '/login',
+                    data: {username, password},
+                    headers: {'X-CSRF-TOKEN': token}
+                }).then(res => {
+                    console.warn(res)
+                })
+            })
+        },
+        getCsrfCookie () {
+            return new Promise((resolve, reject) => {
+                const csrfToken = this.$cookie.get('csrfToken')
+                if (!csrfToken) {
+                    axios.request({
+                        method: 'GET',
+                        baseURL: API.prefix,
+                        url: 'getCsrfToken'
+                    }).then(res => {
+                        resolve(this.$cookie.get('csrfToken'))
+                    })
+                } else {
+                    resolve(csrfToken)
+                }
             })
         }
     }
