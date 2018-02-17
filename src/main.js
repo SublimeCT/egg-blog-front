@@ -2,7 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
+import { router, routerHandler } from './router'
 import Vuelidate from 'vuelidate'
 import VueCookie from 'vue-cookie'
 
@@ -10,6 +10,9 @@ Vue.use(Vuelidate)
 Vue.use(VueCookie)
 
 Vue.config.productionTip = false
+
+// add global router hooks
+routerHandler.global(router)
 
 /* eslint-disable no-new */
 new Vue({

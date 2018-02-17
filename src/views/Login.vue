@@ -13,8 +13,6 @@
                 <button tabindex="3">Login</button>
             </label>
         </form>
-        <pre>{{ $v.username }}</pre>
-        <pre>{{ $v.password }}</pre>
     </div>
 </template>
 
@@ -74,7 +72,11 @@ export default {
                     data: {username, password},
                     headers: {'X-CSRF-TOKEN': token}
                 }).then(res => {
-                    console.warn(res)
+                    if (res.data.code === '0') {
+                        this.$router.push({ path: '/backend/articles' })
+                    } else {
+                        alert(res.data.message)
+                    }
                 })
             })
         },
