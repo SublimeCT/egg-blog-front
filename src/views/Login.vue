@@ -73,7 +73,7 @@ export default {
                     headers: {'X-CSRF-TOKEN': token}
                 }).then(res => {
                     if (res.data.code === '0') {
-                        this.$router.push({ path: '/backend/articles' })
+                        this.$router.push({ path: '/backend' })
                     } else {
                         alert(res.data.message)
                     }

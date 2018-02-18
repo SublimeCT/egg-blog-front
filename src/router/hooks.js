@@ -10,27 +10,30 @@ const hookHandler = {
     global (router) {
         // 后台页面检测权限
         router.beforeEach((to, from, next) => {
-            console.group('%c[路由] %cbeforeEach', 'color:#9933CC')
+            console.group('%c[路由] %cbeforeEach 钩子', 'color:#9933CC', 'color:#000')
+            console.log('from =>', from.path)
+            console.log('to =>', to.path)
             if (to.path.indexOf('/backend') === 0) {
-                // 首先检测 cookies 中是否有后台的 session
-                if (!Cookie.get('EGG_SESS')) {
-                    return location.href = '/'
-                }
                 axios.request({
                     method: 'POST',
                     baseURL: API.prefix,
-                    url: '/api/checkLogin',
+                    url: '/checkLogin',
                     headers: { 'X-CSRF-TOKEN': Cookie.get('csrfToken') }
                 }).then(res => {
                     console.warn(res)
-                    // if (res.code === '0' && res.data && res.data.isLogin) {
-                    //     next()
-                    // } else {
-                    //     location.href = '/'
-                    // }
+                    console.groupEnd()
+                    if (res.data.code === '0' && res.data.data && res.data.data.isLogin) {
+                        next()
+                        return
+                    } else {
+                        next({ path: '/' })
+                        return
+                    }
                 })
             } else {
+                console.groupEnd()                
                 next()
+                return
             }
         })
     }
