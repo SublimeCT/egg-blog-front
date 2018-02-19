@@ -10,6 +10,7 @@ import Article from '@/views/article/Article'
 import Login from '@/views/Login'
 // page-backend
 import BackendIndex from '@/views/backend/Index'
+import ArticleList from '@/views/backend/ArticleList'
 import PublishArticles from '@/views/backend/Articles'
 import ModifyArticle from '@/views/backend/ModifyArticle'
 import Settings from '@/views/backend/Settings'
@@ -44,9 +45,15 @@ const routerInfo = new Router({
                     path: '/backend',
                     name: '后台',
                     component: BackendIndex,
+                    redirect: '/backend/articles',
                     children: [
                         {
                             path: '/backend/articles',
+                            name: '文章列表页',
+                            component: ArticleList
+                        },
+                        {
+                            path: '/backend/article/:id',
                             name: '文章发布页',
                             component: PublishArticles
                         },

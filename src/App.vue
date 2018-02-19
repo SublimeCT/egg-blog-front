@@ -11,11 +11,15 @@ const backgroundImage = {
     _timeout: 1500,
     _defaultColor: '#C7EDCC',
     _loadCallback () {},
+    _excludeCondition () {
+        return location.pathname.indexOf('/backend') === 0
+    },
     get src () {
         const num = Math.floor(Math.random() * this._srcMax + 1)
         return `https://ss3.bdstatic.com/lPoZeXSm1A5BphGlnYG/skin/${num}.jpg`
     },
     getImage () {
+        if (this._checkCondition()) return
         const img = new Image()
         img.src = this.src
         img.onload = () => {
@@ -25,6 +29,7 @@ const backgroundImage = {
         }
     },
     setImage (dom) {
+        if (this._checkCondition()) return
         if (this._src) {
             dom.style.backgroundImage = this._src
         } else {
@@ -38,6 +43,9 @@ const backgroundImage = {
                 this._loadCallback = () => {}
             }, this._timeout)
         }
+    },
+    _checkCondition () {
+        return this._excludeCondition()
     }
 }
 backgroundImage.getImage()
