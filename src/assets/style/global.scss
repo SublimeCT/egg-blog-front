@@ -10,11 +10,34 @@ html, body, #App, h1, h2, h3 {
 html {
     height: 100%;
     body {
+        font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,PingFang SC,WenQuanYi Micro Hei,sans-serif;
         height: 100%;
         background-size: 100% auto;
         background-repeat: no-repeat;
-        font-family: "Avenir", Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        #App {
+            #Index {
+                #BackendIndex {
+                    .ivu-table {
+                        background-color: rgba(0, 0, 0, 0);
+                        td {
+                            background-color: rgba(255, 255, 255, 0.5);
+                        }
+                        tr:hover {
+                            background-color: #FFF;
+                        }
+                        tr:nth-child(2n) td, .ivu-table-stripe .ivu-table-fixed-body tr:nth-child(2n) td {
+                            background-color: 	rgba(233,234,236, 0.6);
+                        }
+                    }
+                }
+            }
+        }
     }
+}
+
+.backend-body {
+    background-image: url('assets/bg.jpg');
+    background-color: #1A3644;
 }

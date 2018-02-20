@@ -1,94 +1,122 @@
 <template>
     <div id="ArticleList" v-if="list">
-        <!-- TABLE -->
-        <div class="article-table">
-            <table class="bordered striped highlight centered">
-                <caption>article list title</caption>
-                <thead>
-                    <tr>
-                        <th>标题</th>
-                        <th>创建时间</th>
-                        <th>修改时间</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>width</td>
-                        <td>宽度</td>
-                        <td>100px</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>width</td>
-                        <td>宽度</td>
-                        <td>100px</td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+        <Input v-model="searchTitle" placeholder="Search By Title..." clearable class="search-input"></Input>
+        <Button type="primary" class="search-button">search</Button>
+        <Table border
+            :columns="columns"
+            :data="list"
+            @on-sort-change="sortHandler"
+            stripe></Table>
     </div>
 </template>
 
 <script>
-// import axios from 'axios'
-// import { API } from '@/config/base'
+import axios from 'axios'
+import { API } from '@/config/base'
 
 export default {
-    data() {
+    data () {
         return {
-            list: [
+            searchTitle: '',
+            activeIndex: 1,
+            list: null,
+            sortColumn: {
+                create_time: 'DESC'
+            },
+            columns: [
+                {key: 'title', title: 'Title'},
+                {key: 'create_time', title: 'Create Time', sortable: 'custom'},
+                {key: 'modify_time', title: 'Modify Time', sortable: 'custom'},
                 {
-                    _id: '5a88f97201a57df8e2fd762f',
-                    user_id: '5a818a89f31a42956c75c5fa',
-                    content: '#content',
-                    title: 'title',
-                    image: null,
-                    create_time: '2018-02-18T03:56:34.730Z',
-                    modify_time: '2018-02-18T03:56:34.730Z'
-                },
-                {
-                    _id: '6a88f97201a57df8e2fd762f',
-                    user_id: '5a818a89f31a42956c75c5fa',
-                    content: '#content',
-                    title: 'title222',
-                    image: null,
-                    create_time: '2018-02-18T03:56:34.730Z',
-                    modify_time: '2018-02-18T03:56:34.730Z'
-                },
-                {
-                    _id: '5a818d68fd2d018f2c01e9b1',
-                    user_id: '5a818a89f31a42956c75c5fa',
-                    content: '# hello world',
-                    create_time: '2018-02-12T12:49:44.410Z',
-                    title: 'this is first article',
-                    image: null
+                    key: 'action',
+                    width: 180,
+                    align: 'center',
+                    title: 'Action',
+                    render: (h, params) => {
+                        const _id = params.row._id
+                        const _this = this
+                        return h('div', [
+                            h('Button', {
+                                props: {
+                                    type: 'primary',
+                                    size: 'small'
+                                },
+                                style: {
+                                    marginRight: '5px'
+                                },
+                                on: {
+                                    click () {
+                                        _this.$router.push({ path: '/article/' + _id })
+                                    }
+                                }
+                            }, 'View'),
+                            h('Button', {
+                                props: {
+                                    type: 'warning',
+                                    size: 'small'
+                                },
+                                style: {
+                                    marginRight: '5px'
+                                },
+                                on: {
+                                    click () {
+                                        _this.$router.push({ path: '/backend/article/' + _id })
+                                    }
+                                }
+                            }, 'Edit'),
+                            h('Button', {
+                                props: {
+                                    type: 'error',
+                                    size: 'small'
+                                },
+                                on: {
+                                    click () {
+                                        _this.deleteArticle(_id)
+                                    }
+                                }
+                            }, 'Delete')
+                        ])
+                    }
                 }
             ]
         }
     },
     created() {
+        const _this = this
+        this.ArticleHandler = {
+            getRemoteData ({querys} = {}) {
+                axios
+                    .request({
+                        method: 'GET',
+                        baseURL: API.prefix,
+                        data: querys,
+                        url: '/articles'
+                    })
+                    .then(res => {
+                        _this.list = res.data
+                    })
+            }
+        }
         // 请求文章列表
-        // axios
-        //     .request({
-        //         method: 'GET',
-        //         baseURL: API.prefix,
-        //         url: '/articles'
-        //     })
-        //     .then(res => {
-        //         console.warn(JSON.stringify(res.data))
-        //     })
+        this.ArticleHandler.getRemoteData()
     },
     methods: {
-        sortChangeHandler ({prop, order}) {
-            console.log({prop, order})
+        sortHandler ({column, key, order}) {
+            const _order = order === 'asc' ? 1 : -1
+            const querys = {sort: {key: _order}}
+            this.ArticleHandler.getRemoteData(querys)
         }
     }
 }
 </script>
-<style lang="scss">
-.article-table {
-    max-width: 66%;
-    margin: 10% auto;
+<style lang="scss" scoped>
+#ArticleList {
+    .search-input {
+        width: 200px;
+        margin-bottom: 15px;
+    }
+    .search-button {
+        vertical-align: top;
+    }
 }
 </style>

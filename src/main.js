@@ -5,12 +5,12 @@ import App from './App'
 import { router, routerHandler } from './router'
 import Vuelidate from 'vuelidate'
 import VueCookie from 'vue-cookie'
-import N3Components from 'N3-components'
-import 'N3-components/dist/index.min.css'
+import iView from 'iview'
+import 'iview/dist/styles/iview.css'
 
 Vue.use(Vuelidate)
 Vue.use(VueCookie)
-Vue.use(N3Components)
+Vue.use(iView)
 
 Vue.config.productionTip = false
 

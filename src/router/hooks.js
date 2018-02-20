@@ -10,9 +10,9 @@ const hookHandler = {
     global (router) {
         // 后台页面检测权限
         router.beforeEach((to, from, next) => {
-            console.group('%c[路由] %cbeforeEach 钩子', 'color:#9933CC', 'color:#000')
-            console.log('from =>', from.path)
-            console.log('to =>', to.path)
+            // console.group('%c[路由] %cbeforeEach 钩子', 'color:#9933CC', 'color:#000')
+            // console.log('from =>', from.path)
+            // console.log('to =>', to.path)
             next()
             // if (to.path.indexOf('/backend') === 0) {
             //     axios.request({
