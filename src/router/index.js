@@ -11,7 +11,7 @@ import Login from '@/views/Login'
 // page-backend
 import BackendIndex from '@/views/backend/Index'
 import ArticleList from '@/views/backend/ArticleList'
-import PublishArticles from '@/views/backend/Articles'
+import PublishArticle from '@/views/backend/PushArticle'
 import ModifyArticle from '@/views/backend/ModifyArticle'
 import Settings from '@/views/backend/Settings'
 
@@ -53,9 +53,9 @@ const routerInfo = new Router({
                             component: ArticleList
                         },
                         {
-                            path: '/backend/article/:id',
+                            path: '/backend/article',
                             name: '文章发布页',
-                            component: PublishArticles
+                            component: PublishArticle
                         },
                         {
                             path: '/backend/article/:id',

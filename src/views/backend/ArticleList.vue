@@ -1,7 +1,8 @@
 <template>
     <div id="ArticleList" v-if="list">
         <Input v-model="searchTitle" placeholder="Search By Title..." clearable class="search-input"></Input>
-        <Button type="primary" class="search-button">search</Button>
+        <Button type="default" class="search-button">search</Button>
+        <Button type="primary" class="add-button" @click="addArticle">add article</Button>
         <Table border
             :columns="columns"
             :data="list"
@@ -19,7 +20,62 @@ export default {
         return {
             searchTitle: '',
             activeIndex: 1,
-            list: null,
+            list: [{
+                '_id' : '5a818d68fd2d018f2c01e9b1',
+                'user_id' : '5a818a89f31a42956c75c5fa',
+                'content' : '# hello world',
+                'create_time' : '2018-02-12T12:49:44.410Z',
+                'title' : 'this is first article',
+                'image' : null
+            }, {
+                '_id' : '5a88f97201a57df8e2fd762f',
+                'user_id' : '5a818a89f31a42956c75c5fa',
+                'content' : '#content',
+                'title' : 'title',
+                'image' : null,
+                'create_time' : '2018-02-18T03:56:34.730Z',
+                'modify_time' : '2018-02-18T03:56:34.730Z'
+            }, {
+                '_id' : '5a8d5ec81008beb9ba31cf3c',
+                'user_id' : '5a818a89f31a42956c75c5fa',
+                'content' : '#content',
+                'title' : 'title 001',
+                'image' : null,
+                'create_time' : '2018-02-18T03:56:34.730Z',
+                'modify_time' : '2018-02-18T03:56:34.730Z'
+            }, {
+                '_id' : '5a8d5ed91008beb9ba31cf3d',
+                'user_id' : '5a818a89f31a42956c75c5fa',
+                'content' : '#content',
+                'title' : 'title 000',
+                'image' : null,
+                'create_time' : '2018-01-18T03:56:34.730Z',
+                'modify_time' : '2018-02-18T03:56:34.730Z'
+            }, {
+                '_id' : '5a8d5ee51008beb9ba31cf3e',
+                'user_id' : '5a818a89f31a42956c75c5fa',
+                'content' : '#content',
+                'title' : 'title 00011',
+                'image' : null,
+                'create_time' : '2018-02-11T03:56:34.730Z',
+                'modify_time' : '2018-02-18T03:56:34.730Z'
+            }, {
+                '_id' : '5a8d5f041008beb9ba31cf3f',
+                'user_id' : '5a818a89f31a42956c75c5fa',
+                'content' : '#content',
+                'title' : 'title 080923841',
+                'image' : null,
+                'create_time' : '2018-02-02T03:56:34.730Z',
+                'modify_time' : '2018-02-18T03:56:34.730Z'
+            }, {
+                '_id' : '5a8d5f0c1008beb9ba31cf40',
+                'user_id' : '5a818a89f31a42956c75c5fa',
+                'content' : '#content',
+                'title' : 'title 1',
+                'image' : null,
+                'create_time' : '2018-02-04T03:56:34.730Z',
+                'modify_time' : '2018-02-18T03:56:34.730Z'
+            }],
             sortColumn: {
                 create_time: 'DESC'
             },
@@ -105,6 +161,9 @@ export default {
             const _order = order === 'asc' ? 1 : -1
             const querys = {sort: {key: _order}}
             this.ArticleHandler.getRemoteData(querys)
+        },
+        addArticle () {
+            this.$router.push({ path: '/backend/article' })
         }
     }
 }
@@ -115,7 +174,7 @@ export default {
         width: 200px;
         margin-bottom: 15px;
     }
-    .search-button {
+    .search-button, .add-button {
         vertical-align: top;
     }
 }
