@@ -18,6 +18,7 @@
 
 <script>
 import { minLength, required } from 'vuelidate/lib/validators'
+import requester from '@/utils/request'
 import { API } from '@/config/base'
 import axios from 'axios'
 
@@ -64,7 +65,7 @@ export default {
         },
         sendLogin () {
             const {username, password} = this
-            this.getCsrfCookie().then(token => {
+            requester.getCsrfCookie(this.$cookie).then(token => {
                 axios.request({
                     method: 'POST',
                     baseURL: API.prefix,
@@ -78,22 +79,6 @@ export default {
                         alert(res.data.message)
                     }
                 })
-            })
-        },
-        getCsrfCookie () {
-            return new Promise((resolve, reject) => {
-                const csrfToken = this.$cookie.get('csrfToken')
-                if (!csrfToken) {
-                    axios.request({
-                        method: 'GET',
-                        baseURL: API.prefix,
-                        url: 'getCsrfToken'
-                    }).then(res => {
-                        resolve(this.$cookie.get('csrfToken'))
-                    })
-                } else {
-                    resolve(csrfToken)
-                }
             })
         }
     }

@@ -41,3 +41,13 @@ html {
     background-image: url('assets/bg.jpg');
     background-color: #1A3644;
 }
+
+.limit-text-len {
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+
+.v-note-wrapper {
+    z-index: 1 !important;
+}
