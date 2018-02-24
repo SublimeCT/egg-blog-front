@@ -73,11 +73,13 @@ export default {
                     data: {username, password},
                     headers: {'X-CSRF-TOKEN': token}
                 }).then(res => {
-                    if (res.data.code === '0') {
-                        this.$router.push({ path: '/backend' })
-                    } else {
-                        alert(res.data.message)
-                    }
+                    this.$router.push({ path: '/backend' })
+                }).catch(e => {
+                    /** 
+                     * 判断 HTTP status code
+                     * https://segmentfault.com/q/1010000011190809?sort=created
+                     */
+                    alert(e.response.data.message)
                 })
             })
         }

@@ -105,7 +105,20 @@ export default {
                         headers: {'X-CSRF-TOKEN': token}
                     })
                     .then(res => {
-                        console.log(res)
+                        this.$Notice.success({
+                            title: 'Push success !',
+                            render: h => {
+                                return h('span', [
+                                    'This article are pushed !!!',
+                                    h('br'),
+                                    ' at ',
+                                    h('a', 'render', {attrs: {href: '/article/' + res.data.id}})
+                                ])
+                            }
+                        })
+                    })
+                    .catch(e => {
+
                     })
             })
         },
