@@ -1,12 +1,35 @@
 <template>
     <div id="Articles">
-        <h2>博客主页</h2>
-        <router-view/>
+        <h2><sub>博客主页</sub> Test Page</h2>
+        <Button type="primary" @click="tips">Open notice</Button>
     </div>
 </template>
 
 <script>
-export default {}
+export default {
+    methods: {
+        tips () {
+            this.$Notice.success({
+                title: 'Notification title',
+                desc: 'The desc will hide when you set render.',
+                render: h => {
+                    return h('span', [
+                        'This article are pushed !!!',
+                        h('br'),
+                        ' at ',
+                        '<br><a href="/login"><br>',
+                        h('a', {
+                            attrs: {
+                                href: '/login'
+                            }
+                        }, '====>')
+                    ])
+                },
+                duration: 0
+            })
+        }
+    }
+}
 </script>
 
 <style>

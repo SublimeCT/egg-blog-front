@@ -2,7 +2,7 @@
     <div id="BackendArticles">
         <Input v-model="title" type="textarea" :autosize="true" placeholder="Input Title..." class="title-input"></Input>
         <mavon-editor v-model="content" :ishljs = "true" :subfield="false" @save="saveArticle"></mavon-editor>
-        <Dropdown trigger="click" @on-visible-change="setHistory" class="record-btn" placement="bottom-start"  @on-click="restoreAtricle">
+        <Dropdown trigger="click" @on-visible-change="setHistory" class="record-btn" :placement="placement"  @on-click="restoreAtricle">
             <Button type="warning">恢复 &nbsp;<Icon type="arrow-down-b"></Icon></Button>
             <DropdownMenu slot="list">
                 <DropdownItem v-for="(record, index) in history" :key="index" :name="index" class="limit-text-len history-list-item">{{ record.time + ' ' + record.title + ' ' + record.content }}</DropdownItem>
@@ -32,6 +32,7 @@ export default {
     data () {
         return {
             title: '',
+            placement: window.innerWidth ? 'top-start' : 'bottom-start',
             content: '',
             history: [],
             submitConfirm: false,
@@ -112,13 +113,19 @@ export default {
                                     'This article are pushed !!!',
                                     h('br'),
                                     ' at ',
-                                    h('a', 'render', {attrs: {href: '/article/' + res.data.id}})
+                                    h('a', {attrs: {href: '/article/' + res.data.data.id}}, 'link')
                                 ])
-                            }
+                            },
+                            duration: 0
                         })
                     })
                     .catch(e => {
-
+                        if (e.response.status === 400) {
+                            this.$Notice.error({
+                                title: 'Push faild !',
+                                desc: e.response.data.message
+                            })
+                        }
                     })
             })
         },
