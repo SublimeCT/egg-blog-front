@@ -7,6 +7,11 @@ html, body, #App, h1, h2, h3 {
     @include paddingMargin0();
 }
 
+.width-height-100 {
+    width: 100%;
+    height: 100%;
+}
+
 html {
     height: 100%;
     body {
@@ -18,7 +23,9 @@ html {
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         #App {
+            @extend .width-height-100;
             #Index {
+                @extend .width-height-100;
                 #BackendIndex {
                     .ivu-table {
                         background-color: rgba(0, 0, 0, 0);

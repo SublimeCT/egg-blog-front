@@ -18,6 +18,7 @@
 
 <script>
 import { minLength, required } from 'vuelidate/lib/validators'
+import { backgroundImage } from '@/utils/backgroundImage'
 import requester from '@/utils/request'
 import { API } from '@/config/base'
 import axios from 'axios'
@@ -46,6 +47,12 @@ export default {
             username: '',
             password: ''
         }
+    },
+    created () {
+        backgroundImage.getImage() // 加载背景图
+    },
+    mounted () {
+        backgroundImage.setImage(document.body)
     },
     methods: {
         login (event) {

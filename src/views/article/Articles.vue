@@ -32,6 +32,12 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+#Articles {
+    background-image: url('../../assets/bg-1.jpg');
+    width: 100%;
+    height: 100%;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+}
 </style>
