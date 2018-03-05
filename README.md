@@ -1,6 +1,6 @@
 # egg-blog-front
 
-> egg-blog 项目的前端部分
+> [egg-blog](https://github.com/SublimeCT/egg-blog) 项目的前端部分
 
 ## Build Setup
 
