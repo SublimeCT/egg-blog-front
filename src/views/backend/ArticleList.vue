@@ -141,12 +141,12 @@ export default {
     created() {
         const _this = this
         this.ArticleHandler = {
-            getRemoteData ({querys} = {}) {
+            getRemoteData (querys = {}) {
                 axios
                     .request({
                         method: 'GET',
                         baseURL: API.prefix,
-                        data: querys,
+                        params: querys,
                         url: '/articles'
                     })
                     .then(res => {
@@ -155,7 +155,7 @@ export default {
             }
         }
         // 请求文章列表
-        this.ArticleHandler.getRemoteData()
+        this.ArticleHandler.getRemoteData({page: 1})
     },
     methods: {
         sortHandler ({column, key, order}) {

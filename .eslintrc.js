@@ -28,7 +28,9 @@ module.exports = {
         "vue/no-parsing-error": [2, { "x-invalid-end-tag": false }],
         indent: [
             "error",
-            4
+            4,{
+                SwitchCase: 1
+            }
         ],
         'linebreak-style': [
             "error",
